@@ -12,6 +12,7 @@
 
 package scala.collection.compat
 
+@if(scala213)
 package object immutable {
   type ArraySeq[+T] = scala.collection.immutable.ArraySeq[T]
   val ArraySeq = scala.collection.immutable.ArraySeq

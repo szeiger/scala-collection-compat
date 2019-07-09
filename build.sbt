@@ -47,7 +47,7 @@ lazy val junit = libraryDependencies += "com.novocode" % "junit-interface" % "0.
 
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.8"
-lazy val scala213 = "2.13.0"
+lazy val scala213 = "2.13.1-bin-5475450-SNAPSHOT"
 
 scalaVersionsByJvm in ThisBuild := {
   val all = List(scala211, scala212, scala213)
@@ -79,6 +79,10 @@ lazy val compat = MultiScalaCrossProject(JSPlatform, JVMPlatform)(
       name := "scala-collection-compat",
       moduleName := "scala-collection-compat",
       scalacOptions ++= Seq("-feature", "-language:higherKinds", "-language:implicitConversions"),
+      scalacOptions ++= {
+        if(scalaVersion.value.startsWith("2.13.")) Seq("-Cscala213=true")
+        else Seq.empty
+      },
       unmanagedSourceDirectories in Compile += {
         val sharedSourceDir = (baseDirectory in ThisBuild).value / "compat/src/main"
         if (scalaVersion.value.startsWith("2.13.")) sharedSourceDir / "scala-2.13"
